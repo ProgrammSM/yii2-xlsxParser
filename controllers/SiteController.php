@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\test;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -122,5 +123,13 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionParser()
+    {
+        $model = new test();
+
+        $model->op();
+        return $this->render('parser', ['op' => $model->msg, 'cell' => 'cell: ' . $model->cell() . " Error: " . $model->getError() . " RowCount: " . $model->getRowCount()]);
     }
 }
