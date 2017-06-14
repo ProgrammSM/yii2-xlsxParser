@@ -124,12 +124,4 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
-
-    public function actionParser()
-    {
-        $model = new test();
-
-        $model->op();
-        return $this->render('parser', ['op' => $model->msg, 'cell' => 'cell: ' . $model->cell() . " Error: " . $model->getError() . " RowCount: " . $model->getRowCount()]);
-    }
 }
