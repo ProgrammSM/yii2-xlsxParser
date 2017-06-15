@@ -1,69 +1,69 @@
 <?php
+
 namespace app\components;
 
 use PHPExcel;
 use PHPExcel_IOFactory;
 
+/**
+ * Парсер xlsx файлов
+ *
+ * @package app\components
+ */
 class XlsxParserComponent extends \yii\base\Component
 {
     public $xlsx;
-    public $errorMsg;
-    public $status;
 
     /**
      * Инициализация переменных
      */
-
     public function init()
     {
         parent::init();
-        $this->errorMsg = "none";
         $this->xlsx = new PHPExcel();
-        $this->status = false;
     }
-//    function __construct()
-//    {
-//        $this->errorMsg = "none";
-//        $this->xlsx = new PHPExcel();
-//        $this->status = false;
-//    }
 
     /**
-     * @param $pathToXlsx
-     * @param array $arrayConfiguration
+     * Парсинг файла и формирование конечного результата с заданными
+     * параметрами
+     *
+     * @param string $pathToXlsx         Путь из временной директории до файла
+     * @param array  $arrayConfiguration Конфигурация по формированию из базы
+     *                                   данных
+     * @param float  $rate               Базовая ставка стоимости работ за час
+     *
      * @return array
      */
-
-    public function parsingFile ($pathToXlsx, array $arrayConfiguration)
-    {
+    public function parsingFile(
+        string $pathToXlsx,
+        array $arrayConfiguration,
+        float $rate
+    ) {
         $this->xlsx = PHPExcel_IOFactory::load($pathToXlsx);
 
         $sheet = $this->xlsx->getSheet(0);
-
         $rowMax = $sheet->getHighestRow();
         $arrayXlsx = [];
-        for ($i = 0; $i < $rowMax; $i++)
-        {
+        for ($i = 0; $i < $rowMax; $i++) {
             $serviceName = $this->getCellValue($i, 0);
             $manHour = $this->getCellValue($i, 1);
             $serviceType = $this->getCellValue($i, 2);
 
-            if ($serviceName == null || $manHour == null || $serviceType == null)
+            if ($serviceName == null || $manHour == null
+                || $serviceType == null
+            ) {
                 continue;
+            }
             $arrayXlsx[] = [$serviceName, $manHour, $serviceType];
         }
 
         $arrayResult = [];
-        foreach ($arrayXlsx as $xlsRow)
-        {
-            foreach ($arrayConfiguration as $conf)
-            {
-                if ($xlsRow[2] == $conf[0])
-                {
-                    $rate = 500;
-                    $value = $xlsRow[1] * $conf[1] * $rate;
+        foreach ($arrayXlsx as list($serviceName, $manHour, $serviceType)) {
+            foreach ($arrayConfiguration as list($confServiceType, $confCoef)) {
+                if ($serviceType == $confServiceType) {
+                    $value = $manHour * $confCoef * $rate;
 
-                    $arrayResult[] = [$xlsRow[0], $value];
+                    $arrayResult[] = [$serviceName, $value];
                     continue;
                 }
             }
@@ -73,32 +73,26 @@ class XlsxParserComponent extends \yii\base\Component
     }
 
     /**
-     * Получение значения указанной ячейки, начиная с 0
-     * @param $s - лист
-     * @param $r - строка
-     * @param $c - ячейка
-     * @return mixed|null
+     * Получение дынных я выбранной ячейки
+     *
+     * @param $row
+     * @param $col
+     *
+     * @return null
      */
-
-    private function getCellValue ($row, $col)
+    private function getCellValue($row, $col)
     {
         $row++;
-        if (is_object($this->xlsx))
-        {
+        if (is_object($this->xlsx)) {
             $sheet = $this->xlsx->getSheet(0);
-            if ($sheet->cellExistsByColumnAndRow($col, $row))
-            {
+            if ($sheet->cellExistsByColumnAndRow($col, $row)) {
                 $cellVal = $sheet->getCellByColumnAndRow($col, $row);
-                $this->status = true;
                 return $cellVal->getValue();
             } else {
-
+                return null;
             }
-
         } else {
-            $this->setErrorNotOpenFile();
             return null;
         }
     }
-
 }

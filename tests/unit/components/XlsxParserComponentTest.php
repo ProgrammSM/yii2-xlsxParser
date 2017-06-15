@@ -1,9 +1,13 @@
 <?php
 use app\components\XlsxParserComponent;
 
+/**
+ * Unit-test для XlsxParserComponent
+ */
 class XlsxParserComponentTest extends \Codeception\Test\Unit
 {
-    public function testParsingFile () {
+    public function testParsingFile()
+    {
         $xlsxParser = new XlsxParserComponent();
 
         $pathXlsx = Yii::getAlias('tests') . '/_data/parsingFile.xlsx';
@@ -17,6 +21,6 @@ class XlsxParserComponentTest extends \Codeception\Test\Unit
             [1, 4.0],
             [2, 2.3],
             [3, 3.5],
-        ]));
+        ], 500.0));
     }
 }
