@@ -13,7 +13,7 @@ use PHPExcel_IOFactory;
 class XlsxParserComponent extends \yii\base\Component
 {
     /**
-     * Экземпляр класса PHPExcel, в который загружается переданный документ
+     * @var PHPExcel Переменная в который загружается переданный документ
      */
     private $xlsx;
 
@@ -30,17 +30,17 @@ class XlsxParserComponent extends \yii\base\Component
      * Парсинг файла и формирование конечного результата с заданными
      * параметрами
      *
-     * @param $path     XlsxParserComponent Путь из временной директории до
-     *                  файла
-     * @param $config   XlsxParserComponent Конфигурация по формированию из
-     *                  базы данных
-     * @param $rate     XlsxParserComponent Базовая ставка стоимости работ за
-     *                  час
+     * @param string  $path   Путь из временной директории до
+     *                        файла
+     * @param mixed[] $config Конфигурация по формированию из
+     *                        базы данных
+     * @param float   $rate   Базовая ставка стоимости работ за час
      *
-     * @return array    Возвращается массив содержащий массивы с названиями
+     * @return array[]    Возвращается массив содержащий массивы с названиями
      *                  работ и посчитанной стоимостью
      */
-    public function parse($path, $config, $rate) {
+    public function parse($path, $config, $rate)
+    {
         $this->xlsx = PHPExcel_IOFactory::load($path);
 
         $sheet = $this->xlsx->getSheet(0);
@@ -77,11 +77,11 @@ class XlsxParserComponent extends \yii\base\Component
     /**
      * Получение данных с указанной ячейки по номеру строки и номеру колонки
      *
-     * @param $row XlsxParserComponent Номер строки
-     * @param $col XlsxParserComponent Номер колонки
+     * @param int $row Номер строки
+     * @param int $col Номер колонки
      *
-     * @return null Должно вернуться значение ячейки mixed или null, если
-     *              указанная ячейка не существует
+     * @return mixed|null Возвращается значение ячейки, если указанная ячейка
+     *                    существует
      */
     private function getCellValue($row, $col)
     {
