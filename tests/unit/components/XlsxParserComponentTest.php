@@ -6,7 +6,7 @@ use app\components\XlsxParserComponent;
  */
 class XlsxParserComponentTest extends \Codeception\Test\Unit
 {
-    public function testParsingFile()
+    public function testParse()
     {
         $xlsxParser = new XlsxParserComponent();
 
@@ -17,7 +17,7 @@ class XlsxParserComponentTest extends \Codeception\Test\Unit
             ["Ремонт фасада", 122500.0],
             ["Замена лампочки", 2300.0],
             ["Замена стояков ХГВС", 60000.0]
-        ], $xlsxParser->parsingFile($pathXlsx, [
+        ], $xlsxParser->parse($pathXlsx, [
             [1, 4.0],
             [2, 2.3],
             [3, 3.5],
