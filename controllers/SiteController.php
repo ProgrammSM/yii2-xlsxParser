@@ -2,10 +2,10 @@
 
 namespace app\controllers;
 
-use app\models\CalcForm;
+//use app\models\CalcForm;
 use Yii;
 use yii\web\Controller;
-use yii\web\UploadedFile;
+//use yii\web\UploadedFile;
 
 /**
  * SiteController класс для главной страницы и вычисления
