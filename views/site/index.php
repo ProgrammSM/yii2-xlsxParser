@@ -9,7 +9,6 @@ use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 
 $this->title = 'Главная страница';
-$model = new \app\models\CalcForm();
 ?>
 <div class="site-index">
 
