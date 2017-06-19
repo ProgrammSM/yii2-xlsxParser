@@ -24,7 +24,6 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-
 <div class="wrap">
     <?php
     NavBar::begin([
@@ -41,23 +40,20 @@ AppAsset::register($this);
             ['label' => 'Конфигурация', 'url' => ['/config/grid']],
         ],
     ]);
-    NavBar::end();
-    ?>
-
+    NavBar::end(); ?>
     <div class="container">
         <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            'links' => isset($this->params['breadcrumbs'])
+                ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= $content ?>
     </div>
 </div>
-
 <footer class="footer">
     <div class="container text-center">
         <p>&copy; ООО "Рога и копыта" <?= date('Y') ?></p>
     </div>
 </footer>
-
 <?php $this->endBody() ?>
 </body>
 </html>
