@@ -21,4 +21,24 @@ class IndexCest
         $I->click('Калькулятор работ', 'a');
         $I->see('Калькулятор работ', 'h1');
     }
+
+    public function goingOnNavToCalcPageAndBack(\FunctionalTester $I)
+    {
+        $I->amOnPage(['/']);
+        $I->seeLink('Вычисление');
+        $I->click('Вычисление');
+        $I->see('Вычислить', 'h1');
+        $I->click('Калькулятор работ');
+        $I->see('Калькулятор работ', 'h1');
+    }
+
+    public function goingOnButtonToCalcPageAndBack(\FunctionalTester $I)
+    {
+        $I->amOnPage(['/']);
+        $I->seeLink('Перейти к вычислениям!');
+        $I->click('Перейти к вычислениям!');
+        $I->see('Вычислить', 'h1');
+        $I->click('Калькулятор работ', 'a');
+        $I->see('Калькулятор работ', 'h1');
+    }
 }

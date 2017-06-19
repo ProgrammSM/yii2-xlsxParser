@@ -20,4 +20,14 @@ class SiteController extends Controller
     {
         return $this->render('index');
     }
+
+    /**
+     * Отображаем страницу с функционалом вычисления
+     *
+     * @return string
+     */
+    public function actionCalc()
+    {
+        return $this->render('calc');
+    }
 }
