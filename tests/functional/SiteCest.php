@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Функциональные тесты главной страницы
+ * Функциональные тесты site/calc
  *
- * Class IndexCest
+ * Class SiteCest
  */
-class IndexCest
+class SiteCest
 {
     /**
      * Устанавливаем главную страницу до начала выполнения тестов
@@ -75,4 +75,19 @@ class IndexCest
         $I->click('Калькулятор работ', 'a');
         $I->see('Калькулятор работ', 'h1');
     }
+
+    /**
+     * Переход на site/calc и проверка наличия элементов на странице
+     *
+     * @param FunctionalTester $I
+     */
+    public function seeCalcPage(\FunctionalTester $I)
+    {
+        $I->amOnRoute('site/calc');
+        $I->see('Вычислить', 'h1');
+        $I->see('Отправить', 'button');
+        $I->seeElement('input', ['type' => 'file']);
+    }
 }
+
+
