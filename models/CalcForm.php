@@ -8,18 +8,14 @@ use \yii\web\UploadedFile;
 /**
  * Модель вычисления.
  *
- * Class ClacForm
+ * Class CalcForm
  */
 class CalcForm extends Model
 {
     /**
-     * @var array[] Массив сформированных данных, полученных из файла xlsx и
-     *      обработанный компонентом xlsxParser.
-     */
-    public $data;
-
-    /**
-     * @var UploadedFile Загружаемый файл.
+     * @var UploadedFile Загружаемый файл. Необходимо для приёма файла через
+     *      UploadedFile::getInstance() в SiteController, где требуется указать
+     *      модель.
      */
     public $file;
 
@@ -37,7 +33,6 @@ class CalcForm extends Model
         foreach ($services as $srv) {
             $result[] = [$srv['type'], $srv['coef']];
         }
-
         return $result;
     }
 }
