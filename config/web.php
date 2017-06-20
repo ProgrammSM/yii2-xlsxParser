@@ -41,7 +41,7 @@ $config = [
         'db' => $db,
         'xlsxParser' => [
             'class' => 'app\components\XlsxParserComponent',
-        ]
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

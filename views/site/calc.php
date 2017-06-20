@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]); ?>
         <div class="form-group">
             <p>Выберите файл для загрузки и нажмите "Отправить"</p>
-            <input type="file" id="inpFile"/>
+            <?= $form->field($model, 'file')->fileInput(); ?>
             <?= Html::submitButton('Отправить',
                 ['class' => 'btn btn-primary']) ?>
         </div>
