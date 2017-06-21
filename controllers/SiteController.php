@@ -51,13 +51,9 @@ class SiteController extends Controller
                 // Загружаем конфигурацию из базы данных.
                 $config = $model->getConfiguration();
                 $view = 'result';
-                /**
-                 * Передаём путь на временный файл в компонент xlsxParser,
-                 * конфигурацию и зарплатную ставку и возвращаем результат в $data.
-                 */
+                // Формируем данные для представления result
                 $data = [
-                    'data' => Yii::$app->xlsxParser->parse($model->file->tempName,
-                        $config, 500.0),
+                    'data' => $model->getData($config, 500.0),
                     'title' => 'Стоимость работ'
                 ];
             }

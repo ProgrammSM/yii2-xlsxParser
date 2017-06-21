@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 $this->title = $title;
 $this->params['breadcrumbs'][] = $this->title;
-?>`
+?>
 <div class="site-calc">
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="container">

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\base\Model;
 use \yii\web\UploadedFile;
 
@@ -13,9 +14,9 @@ use \yii\web\UploadedFile;
 class CalcForm extends Model
 {
     /**
-     * @var UploadedFile $file1 Загружаемый файл. Необходимо для приёма файла через
-     *      UploadedFile::getInstance() в SiteController, где требуется указать
-     *      модель.
+     * @var UploadedFile $file1 Загружаемый файл. Необходимо для приёма файла
+     *      через UploadedFile::getInstance() в SiteController, где требуется
+     *      указать модель.
      */
     public $file;
 
@@ -31,7 +32,7 @@ class CalcForm extends Model
         $services = Services::find()->asArray()->all();
         $result = [];
         foreach ($services as $srv) {
-            $result[] = [$srv['type'], $srv['coef']];
+            $result[] = ['type' => $srv['type'], 'coef' => $srv['coef']];
         }
         return $result;
     }
@@ -44,13 +45,25 @@ class CalcForm extends Model
     public function rules()
     {
         return [
+            [['file'], 'required', 'message' => 'Требуется выбрать файл'],
             [
                 ['file'],
                 'file',
                 'extensions' => 'xlsx',
                 'checkExtensionByMimeType' => false,
-                'skipOnEmpty' => false,
             ],
         ];
+    }
+
+    /**
+     * Формируем данные с помощью компонента xlsxParser
+     *
+     * @param array[] $config конфигурация для формирования файла
+     * @param float $rate базовая зарплатная ставка за один час
+     */
+    public function getData($config, $rate)
+    {
+        return Yii::$app->xlsxParser->parse($this->file->tempName, $config,
+            $rate);
     }
 }
