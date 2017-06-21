@@ -14,7 +14,7 @@ use \yii\web\UploadedFile;
 class CalcForm extends Model
 {
     /**
-     * @var UploadedFile $file1 Загружаемый файл. Необходимо для приёма файла
+     * @var UploadedFile $file Загружаемый файл. Необходимо для приёма файла
      *      через UploadedFile::getInstance() в SiteController, где требуется
      *      указать модель.
      */
