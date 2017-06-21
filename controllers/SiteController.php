@@ -48,12 +48,10 @@ class SiteController extends Controller
             // Принимаем входящий файл.
             $model->file = UploadedFile::getInstance($model, 'file');
             if ($model->validate()) {
-                // Загружаем конфигурацию из базы данных.
-                $config = $model->getConfiguration();
                 $view = 'result';
                 // Формируем данные для представления result
                 $data = [
-                    'data' => $model->getData($config, 500.0),
+                    'data' => $model->getData(Yii::$app->params['rate']),
                     'title' => 'Стоимость работ'
                 ];
             }

@@ -81,10 +81,6 @@ class CalcFormTest extends \Codeception\Test\Unit
             ["Ремонт фасада", 122500.0],
             ["Замена лампочки", 2300.0],
             ["Замена стояков ХГВС", 60000.0]
-        ], $calcForm->getData([
-            ['type' => 1, 'coef' => 4.0],
-            ['type' => 2, 'coef' => 2.3],
-            ['type' => 3, 'coef' => 3.5],
-        ], 500.0));
+        ], $calcForm->getData(500.0));
     }
 }

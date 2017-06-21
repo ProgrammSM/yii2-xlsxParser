@@ -61,9 +61,9 @@ class CalcForm extends Model
      * @param array[] $config конфигурация для формирования файла
      * @param float $rate базовая зарплатная ставка за один час
      */
-    public function getData($config, $rate)
+    public function getData($rate)
     {
-        return Yii::$app->xlsxParser->parse($this->file->tempName, $config,
+        return Yii::$app->xlsxParser->parse($this->file->tempName, $this->getConfiguration(),
             $rate);
     }
 }
