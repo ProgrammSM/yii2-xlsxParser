@@ -13,7 +13,7 @@ use \yii\web\UploadedFile;
 class CalcForm extends Model
 {
     /**
-     * @var UploadedFile Загружаемый файл. Необходимо для приёма файла через
+     * @var UploadedFile $file1 Загружаемый файл. Необходимо для приёма файла через
      *      UploadedFile::getInstance() в SiteController, где требуется указать
      *      модель.
      */
@@ -34,5 +34,23 @@ class CalcForm extends Model
             $result[] = [$srv['type'], $srv['coef']];
         }
         return $result;
+    }
+
+    /**
+     * Правила проверки указанного файла
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            [
+                ['file'],
+                'file',
+                'extensions' => 'xlsx',
+                'checkExtensionByMimeType' => false,
+                'skipOnEmpty' => false,
+            ],
+        ];
     }
 }
