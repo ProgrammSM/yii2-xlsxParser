@@ -58,7 +58,6 @@ class CalcForm extends Model
     /**
      * Формируем данные с помощью компонента xlsxParser
      *
-     * @param array[] $config конфигурация для формирования файла
      * @param float $rate базовая зарплатная ставка за один час
      */
     public function getData($rate)
