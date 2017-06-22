@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Функциональные тесты site/calc
+ * Функциональные тесты контроллера SiteController
  *
  * Class SiteCest
  */
@@ -88,6 +88,18 @@ class SiteCest
         $I->see('Отправить', 'button');
         $I->seeElement('input', ['type' => 'file']);
     }
+
+    /**
+     * Проверяем отправку файлов и просмотр результатов
+     *
+     * @param FunctionalTester $I
+     */
+    public function sendFile(\FunctionalTester $I)
+    {
+        $I->amOnRoute('site/calc');
+        $I->attachFile('input[type="file"]', 'parsingFile.xlsx');
+        $I->click('Отправить');
+        $I->see('Стоимость работ', 'h1');
+        $I->see('Ремонт отмостки', 'td');
+    }
 }
-
-

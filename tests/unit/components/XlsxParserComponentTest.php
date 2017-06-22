@@ -18,9 +18,9 @@ class XlsxParserComponentTest extends \Codeception\Test\Unit
             ["Замена лампочки", 2300.0],
             ["Замена стояков ХГВС", 60000.0]
         ], $xlsxParser->parse($pathXlsx, [
-            [1, 4.0],
-            [2, 2.3],
-            [3, 3.5],
+            ['type' => 1, 'coef' => 4.0],
+            ['type' => 2, 'coef' => 2.3],
+            ['type' => 3, 'coef' => 3.5],
         ], 500.0));
     }
 }

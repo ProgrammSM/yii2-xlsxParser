@@ -32,7 +32,10 @@ return [
                 'domain' => 'localhost',
             ],
             */
-        ],        
+        ],
+        'xlsxParser' => [
+            'class' => 'app\components\XlsxParserComponent',
+        ],
     ],
     'params' => $params,
 ];

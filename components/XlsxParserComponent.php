@@ -32,20 +32,26 @@ class XlsxParserComponent extends \yii\base\Component
      *
      * @param string  $path   Путь из временной директории до
      *                        файла
-     * @param mixed[] $config Конфигурация по формированию из
+     * @param array[] $configData Конфигурация по формированию из
      *                        базы данных
      * @param float   $rate   Базовая ставка стоимости работ за час
      *
      * @return array[]    Возвращается массив содержащий массивы с названиями
      *                  работ и посчитанной стоимостью
      */
-    public function parse($path, $config, $rate)
+    public function parse($path, $configData, $rate)
     {
+        /**
+         * Загружаем указанный xlsx файл
+         */
         $this->xlsx = PHPExcel_IOFactory::load($path);
 
+        // Получаем первый лист
         $sheet = $this->xlsx->getSheet(0);
+        // Выясняем максимальную строку
         $rowMax = $sheet->getHighestRow();
         $data = [];
+        // Парсим таблицу заполняя массив
         for ($i = 0; $i < $rowMax; $i++) {
             $serviceName = $this->getCellValue($i, 0);
             $manHour = $this->getCellValue($i, 1);
@@ -60,17 +66,18 @@ class XlsxParserComponent extends \yii\base\Component
         }
 
         $result = [];
+        /**
+         * Составляем массив данных применяя полученную конфигурацию
+         */
         foreach ($data as list($serviceName, $manHour, $serviceType)) {
-            foreach ($config as list($confServiceType, $confCoef)) {
-                if ($serviceType == $confServiceType) {
-                    $value = $manHour * $confCoef * $rate;
-
+            foreach ($configData as $conf) {
+                if ($serviceType == $conf['type']) {
+                    $value = $manHour * $conf['coef'] * $rate;
                     $result[] = [$serviceName, $value];
                     continue;
                 }
             }
         }
-
         return $result;
     }
 
