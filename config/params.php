@@ -1,6 +1,10 @@
 <?php
+$dbPath = realpath(__DIR__ . '/../data');
 
 return [
     'adminEmail' => 'admin@example.com',
-    'rate' => 500.0, // базовая зарплатная ставка за один час
+    // базовая зарплатная ставка за один час
+    'rate' => 500.0,
+    // путь до расположения базы данных
+    'dbPath' => $dbPath,
 ];
