@@ -11,8 +11,19 @@ $javascript = <<<JS
 /**
 * Добавление новой строки
 */
-$("#strAdd").on("click", function() {
-    location.href = "index.php?r=config/add";
+$("#srvAdd").on("click", function() {
+    if ($("[data-id=0]").length == 0) {
+        $("#service-tab").append(
+            '<tr style="border: 1px solid red">' + 
+                '<td class="text-center">' + 
+                    '<input type="checkbox" class="check-id" data-id="0" disabled="disabled"/>' +
+                '</td>' +
+                '<td class="text-center editable">0</td>' +
+                '<td class="text-center editable">0.0</td>' +
+            '</tr>'
+         );
+        $("#srvAdd").attr("disabled", "disabled");
+    }
 });
 
 /**
@@ -42,7 +53,7 @@ $("#strRemove").on("click", function() {
 * 
 * Вешаем слушатель кликов по td с классом editable
 */
-$(".editable").click(function(e)	{
+$(document).on("click", ".editable", function(e)	{
 	var t = e.target || e.srcElement;
 	var elm_name = t.tagName.toLowerCase();
 	// Если это инпут, то ничего не делаем
@@ -65,12 +76,12 @@ $(".editable").click(function(e)	{
 		var id = $($(service).children()[0]).attr('data-id');
 		var type = $(service[1]).html();
 		var coef = $(service[2]).html();
-		// Формируем json строку
-		var data = '{' +
-		    '"id":"' + id + 
-		    '","type":"' + type + 
-		    '","coef":"' + coef + 
-		'"}';
+        // Формируем json строку
+        var data = '{' +
+            '"id":"' + id + 
+            '","type":"' + type + 
+            '","coef":"' + coef + 
+        '"}';
         // Переходим по сформированной строке
         location.href = "index.php?r=config/edit&service=" + data;
     });
@@ -97,7 +108,7 @@ $this->registerJs($javascript, yii\web\View::POS_READY);
 <div class="config-grid">
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="container" style="margin-top: 50px">
-        <table border="1" class="text-left" style="width: 500px">
+        <table id="service-tab" border="1" class="text-left" style="width: 500px">
             <tr>
                 <th class="text-center"></th>
                 <th class="text-center">Тип</th>
@@ -116,7 +127,7 @@ $this->registerJs($javascript, yii\web\View::POS_READY);
         </table>
         <br/>
         <?= Html::Button('Добавить строку',
-            ['class' => 'btn btn-primary', 'id' => 'strAdd']) ?>
+            ['class' => 'btn btn-primary', 'id' => 'srvAdd']) ?>
         <?= Html::Button('Удалить выделенное',
             ['class' => 'btn btn-primary', 'id' => 'strRemove']) ?>
         <br/>

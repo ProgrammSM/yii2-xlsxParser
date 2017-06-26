@@ -34,17 +34,6 @@ class GridForm extends Model
     }
 
     /**
-     * Добавление новой строки в базу данных для добавление конфигурации услуги
-     *
-     * @return bool
-     */
-    public function addService()
-    {
-        $service = new Service();
-        return $service->save();
-    }
-
-    /**
      * Удаление указанных услуг
      *
      * @param string[] $data идентификаторы удаляемых услуг
@@ -73,7 +62,13 @@ class GridForm extends Model
      */
     public function editService($data)
     {
-        $service = Service::findOne($data['id']);
+        $id = $data['id'];
+        $service = null;
+        if ($id != 0) {
+            $service = Service::findOne($id);
+        } else {
+            $service = new Service();
+        }
         $service->scenario = 'edit';
         $service->attributes = $data;
         return $service->save();

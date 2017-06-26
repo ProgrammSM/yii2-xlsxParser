@@ -25,21 +25,16 @@ class GridFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Проверяем на возможность добавления новых записей.
+     * Проверяем на возможность занесения новой услуги в таблицу.
      */
     public function testAddService()
     {
         $gridForm = new GridForm();
-        $this->assertTrue($gridForm->addService());
-    }
-
-    /**
-     * Проверяем на возможность удалить указанные записи.
-     */
-    public function testRemoveServices()
-    {
-        $gridForm = new GridForm();
-        $this->assertTrue($gridForm->removeServices(['3', '4']));
+        $this->assertTrue($gridForm->editService([
+            'id' => '0',
+            'type' => '4',
+            'coef' => ''
+        ]));
     }
 
     /**
@@ -53,6 +48,15 @@ class GridFormTest extends \PHPUnit_Framework_TestCase
             'type' => '2',
             'coef' => '5.0'
         ]));
+    }
+
+    /**
+     * Проверяем на возможность удалить указанные записи.
+     */
+    public function testRemoveServices()
+    {
+        $gridForm = new GridForm();
+        $this->assertTrue($gridForm->removeServices(['3', '4']));
     }
 
     /**
