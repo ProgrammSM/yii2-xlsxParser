@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\GridForm;
 use yii\web\Controller;
 use \yii\helpers\BaseJson;
+use yii\web\HttpException;
 
 /**
  * Контроллер страницы конфигурации
@@ -14,19 +15,21 @@ use \yii\helpers\BaseJson;
 class ConfigController extends Controller
 {
     /**
+     * @var string действие по умолчанию
+     */
+    public $defaultAction = 'grid';
+
+    /**
      * Отображение шаблона с конфигурацией хранящейся в базе данных
-     *
-     * @param null|string $err
      *
      * @return mixed
      */
-    public function actionGrid($err = null)
+    public function actionGrid()
     {
         $model = new GridForm();
         $data = [
             'title' => 'Конфигурация',
-            'config' => $model->getConfiguration(),
-            'err' => $err
+            'config' => $model->getConfiguration()
         ];
         return $this->render('grid', $data);
     }
@@ -35,15 +38,15 @@ class ConfigController extends Controller
      * Добавление строки с работой
      *
      * @return \yii\web\Response
+     * @throws HttpException
      */
     public function actionAdd()
     {
-        $url = 'index.php?r=config%2Fgrid';
         $model = new GridForm();
         if (!$model->addService()) {
-            $url .= '&err=Ошибка%20добавления';
+            throw new HttpException(422, 'Ошибка добавления');
         }
-        return $this->redirect($url);
+        return $this->redirect('index.php?r=config');
     }
 
     /**
@@ -54,20 +57,20 @@ class ConfigController extends Controller
      *                        PHP, 4 - передаваемый ID удаляемого объекта
      *
      * @return \yii\web\Response
+     * @throws HttpException
      */
     public function actionRemove($id = null)
     {
-        $url = 'index.php?r=config%2Fgrid';
         if ($id !== null) {
             $model = new GridForm();
             // Декодируем формат JSON в PHP и передаём в модель
             if (!$model->removeServices(BaseJson::decode($id))) {
-                $url .= '&err=Ошибка%20удаления';
+                throw new HttpException(422, 'Ошибка удаления');
             }
         } else {
-            $url .= '&err=Ошибка%20удаления';
+            throw new HttpException(422, 'Ошибка удаления');
         }
-        return $this->redirect($url);
+        return $this->redirect('index.php?r=config');
     }
 
     /**
@@ -77,31 +80,31 @@ class ConfigController extends Controller
      *                             {"id":"3","type":"3","coef":"5.0"}
      *
      * @return \yii\web\Response
+     * @throws HttpException
      */
     public function actionEdit($service = null)
     {
-        $url = 'index.php?r=config%2Fgrid';
         if ($service !== null) {
             $model = new GridForm();
             // Декодируем формат JSON в PHP и передаём в модель
             if (!$model->editService(BaseJson::decode($service))) {
-                $url .= '&err=Ошибка%20редактирования';
+                throw new HttpException(422, 'Ошибка редактирования');
             }
         }
-        return $this->redirect($url);
+        return $this->redirect('index.php?r=config');
     }
 
     /**
      * Восстановление настроек по умолчанию
      *
      * @return \yii\web\Response
+     * @throws HttpException
      */
     public function actionRestore() {
-        $url = 'index.php?r=config%2Fgrid';
         $model = new GridForm();
         if (!$model->restoreConfig()) {
-            $url .= '&err=Ошибка%20восстановления';
+            throw new HttpException(422, 'Ошибка восстановления');
         }
-        return $this->redirect($url);
+        return $this->redirect('index.php?r=config');
     }
 }

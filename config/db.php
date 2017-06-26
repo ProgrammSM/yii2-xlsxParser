@@ -1,10 +1,8 @@
 <?php
 /**
- * Конфигурация базы данных SQLite в директории @app/data/data.db
+ * Конфигурация базы данных SQLite в директории @app/data/
  */
-$pathDB = realpath(__DIR__ . '/../data') . '/data.db';
-
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'sqlite:' . $pathDB,
+    'dsn' => 'sqlite:' . realpath(__DIR__ . '/../data') . '/data.db',
 ];

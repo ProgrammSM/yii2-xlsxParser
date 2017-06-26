@@ -1,5 +1,8 @@
 <?php
-$params = require(__DIR__ . '/params.php');
-$params['dbPath'] = realpath(__DIR__ . '/../tests/_data');
-
-return $params;
+return [
+    'adminEmail' => 'admin@example.com',
+    // базовая зарплатная ставка за один час
+    'rate' => 500.0,
+    // путь до расположения базы данных
+    'dbPath' => realpath(__DIR__ . '/../tests/_data'),
+];

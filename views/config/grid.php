@@ -22,21 +22,26 @@ $("#strRemove").on("click", function() {
     var dataTest = {};
     // Формируем json строку содержащий id строки в базе данных
     var i = 0;
-    var data = "{";
-    $(".check-id:checked").each(function() {
-        if (i > 0) data += ",";
-        data += '"' + i + '":' + $(this).attr('data-id');
-        dataTest[String(i++)] = $(this).attr('data-id');
-    });
-    data += "}";
-    // Если хоть что-нибудь выделено, то переходим по сформированной строке
+    
+    var checkbox = $(".check-id:checked");
+    var data = "";
+    if (checkbox.length > 0) {
+        data = "{";
+        checkbox.each(function() {
+            if (i > 0) data += ",";
+            data += '"' + i + '":' + $(this).attr('data-id');
+            dataTest[String(i++)] = $(this).attr('data-id');
+        });
+        data += "}";
+    }
+
     location.href = "index.php?r=config/remove&id=" + data;    
 });
 
 /**
 * Редактирование услуги
 * 
-* Вешаем слушатель на предмет кликов по td с классом editable
+* Вешаем слушатель кликов по td с классом editable
 */
 $(".editable").click(function(e)	{
 	var t = e.target || e.srcElement;
@@ -87,7 +92,6 @@ $(window).keydown(function(event){
 $("#restore").on("click", function() {
     location.href = "index.php?r=config/restore";
 });
-
 JS;
 $this->registerJs($javascript, yii\web\View::POS_READY);
 ?>
@@ -120,13 +124,5 @@ $this->registerJs($javascript, yii\web\View::POS_READY);
         <br/>
         <?= Html::Button('Восстановить настройки по умолчанию',
             ['class' => 'btn btn-primary', 'id' => 'restore']) ?>
-        <br/>
-        <br/>
-        <?php
-            if ($err !== null) {
-                ?><div class="container" style="color:red;"><?=$err?></div>
-        <?php
-            }
-            ?>
     </div>
 </div>
