@@ -12,8 +12,6 @@ use yii\base\Model;
  */
 class GridForm extends Model
 {
-    const SCENARIO_EDIT = 'editService';
-
     /**
      * Получаем конфигурацию для калькуляции и формирования из базы данных
      * SQLite.
