@@ -4,7 +4,6 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
-use yii\helpers\Html;
 
 /**
  * Модель для работы с данными конфигурации
@@ -13,6 +12,8 @@ use yii\helpers\Html;
  */
 class GridForm extends Model
 {
+    const SCENARIO_EDIT = 'editService';
+
     /**
      * Получаем конфигурацию для калькуляции и формирования из базы данных
      * SQLite.
@@ -22,7 +23,7 @@ class GridForm extends Model
     public function getConfiguration()
     {
         // Делаем SQL-запрос в таблицу services
-        $services = Services::find()->asArray()->all();
+        $services = Service::find()->asArray()->all();
         $result = [];
         foreach ($services as $srv) {
             $result[] = [
@@ -41,35 +42,25 @@ class GridForm extends Model
      */
     public function addService()
     {
-        $result = false;
-        if (\Yii::$app->db->createCommand()->insert('services', [])->execute()
-            > 0
-        ) {
-            $result = true;
-        }
-        return $result;
+        $service = new Service();
+        return $service->save();
     }
 
     /**
      * Удаление указанных услуг
      *
-     * @param string[] $array идентификаторы удаляемых услуг
+     * @param string[] $data идентификаторы удаляемых услуг
      *
      * @return bool
      */
-    public function removeServices($array)
+    public function removeServices($data)
     {
-        $result = false;
-        if (count($array) > 0) {
-            // Задаём счётчик выполненных операций
-            $counter = 0;
-            foreach ($array as $id) {
-                $counter += \Yii::$app->db->createCommand()
-                    ->delete('services', 'id = ' . Html::encode($id))
-                    ->execute();
-            }
-            if ($counter > 0) {
-                $result = true;
+        $result = true;
+        foreach ($data as $id) {
+            $service = Service::findOne($id);
+            if ($service->delete() === false) {
+                $result = false;
+                break;
             }
         }
         return $result;
@@ -78,21 +69,16 @@ class GridForm extends Model
     /**
      * Редактирование данных услуг
      *
-     * @param mixed[] $array массив содержащий изменённые данные
+     * @param string[] $data массив содержащий изменённые данные
      *
      * @return bool результат выполнения
      */
-    public function editService($array)
+    public function editService($data)
     {
-        $result = false;
-        if (\Yii::$app->db->createCommand()->update('services', [
-                'type' => (integer)Html::encode($array['type']),
-                'coef' => (float)Html::encode($array['coef'])
-            ], 'id = ' . Html::encode($array['id']))->execute() > 0
-        ) {
-            $result = true;
-        }
-        return $result;
+        $service = Service::findOne($data['id']);
+        $service->scenario = 'edit';
+        $service->attributes = $data;
+        return $service->save();
     }
 
     /**

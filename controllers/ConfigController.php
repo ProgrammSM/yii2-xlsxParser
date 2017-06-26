@@ -52,24 +52,17 @@ class ConfigController extends Controller
     /**
      * Удаление указанных элементов
      *
-     * @param null|string $id строка в формате JSON вида {"0":4} где "0" -
+     * @param string $id строка в формате JSON вида {"0":4} где "0" -
      *                        номер элемента массива, который сформируется в
      *                        PHP, 4 - передаваемый ID удаляемого объекта
      *
      * @return \yii\web\Response
-     * @throws HttpException
      */
-    public function actionRemove($id = null)
+    public function actionRemove($id)
     {
-        if ($id !== null) {
-            $model = new GridForm();
-            // Декодируем формат JSON в PHP и передаём в модель
-            if (!$model->removeServices(BaseJson::decode($id))) {
-                throw new HttpException(422, 'Ошибка удаления');
-            }
-        } else {
-            throw new HttpException(422, 'Ошибка удаления');
-        }
+        $model = new GridForm();
+        // Декодируем формат JSON в PHP и передаём в модель
+        $model->removeServices(BaseJson::decode($id));
         return $this->redirect('index.php?r=config');
     }
 
@@ -82,14 +75,12 @@ class ConfigController extends Controller
      * @return \yii\web\Response
      * @throws HttpException
      */
-    public function actionEdit($service = null)
+    public function actionEdit($service)
     {
-        if ($service !== null) {
-            $model = new GridForm();
-            // Декодируем формат JSON в PHP и передаём в модель
-            if (!$model->editService(BaseJson::decode($service))) {
-                throw new HttpException(422, 'Ошибка редактирования');
-            }
+        $model = new GridForm();
+        // Декодируем формат JSON в PHP и передаём в модель
+        if (!$model->editService(BaseJson::decode($service))) {
+            throw new HttpException(422, 'Ошибка редактирования');
         }
         return $this->redirect('index.php?r=config');
     }

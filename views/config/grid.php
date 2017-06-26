@@ -24,16 +24,15 @@ $("#strRemove").on("click", function() {
     var i = 0;
     
     var checkbox = $(".check-id:checked");
-    var data = "";
+    var data = "{";
     if (checkbox.length > 0) {
-        data = "{";
         checkbox.each(function() {
             if (i > 0) data += ",";
             data += '"' + i + '":' + $(this).attr('data-id');
             dataTest[String(i++)] = $(this).attr('data-id');
         });
-        data += "}";
     }
+    data += "}";
 
     location.href = "index.php?r=config/remove&id=" + data;    
 });
