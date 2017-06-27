@@ -28,7 +28,7 @@ class CalcForm extends Model
      */
     public function getConfiguration()
     {
-        // Делаем SQL-запрос в таблицу services
+        // Делаем SQL-запрос в таблицу service
         $service = Service::find()->asArray()->all();
         $result = [];
         foreach ($service as $srv) {

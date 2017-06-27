@@ -20,10 +20,10 @@ class GridForm extends Model
      */
     public function getConfiguration()
     {
-        // Делаем SQL-запрос в таблицу services
-        $services = Service::find()->asArray()->all();
+        // Делаем SQL-запрос в таблицу service
+        $service = Service::find()->asArray()->all();
         $result = [];
-        foreach ($services as $srv) {
+        foreach ($service as $srv) {
             $result[] = [
                 'id' => $srv['id'],
                 'type' => $srv['type'],
