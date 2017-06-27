@@ -4,5 +4,5 @@ return [
     // базовая зарплатная ставка за один час
     'rate' => 500.0,
     // путь до расположения базы данных
-    'dbPath' => realpath(__DIR__ . '/../data'),
+    'dbPath' => realpath(__DIR__ . '/../tests/_data'),
 ];

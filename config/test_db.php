@@ -1,6 +1,8 @@
 <?php
-$db = require(__DIR__ . '/db.php');
-$pathDB = realpath(__DIR__ . '/../tests/_data') . '/data.db';
-$db['dsn'] = 'sqlite:' . $pathDB;
-
-return $db;
+/**
+ * Конфигурация базы данных SQLite в директории @app/tests/_data
+ */
+return [
+    'class' => 'yii\db\Connection',
+    'dsn' => 'sqlite:' . realpath(__DIR__ . '/../tests/_data') . '/data.db',
+];
