@@ -12,7 +12,9 @@ $javascript = <<<JS
 * Добавление новой строки
 */
 $("#srvAdd").on("click", function() {
+    // Проверяем наличие уже созданной "новой услуги"
     if ($("[data-id=0]").length == 0) {
+        // Добавляем в таблицу новую строку
         $("#service-tab").append(
             '<tr style="border: 1px solid red">' + 
                 '<td class="text-center">' + 
@@ -22,7 +24,20 @@ $("#srvAdd").on("click", function() {
                 '<td class="text-center editable">0.0</td>' +
             '</tr>'
          );
-        $("#srvAdd").attr("disabled", "disabled");
+        // Заменяем кнопку на "Сохранить..."
+        $("#srvAdd").html("Сохранить новую услугу").attr("id", "saveSrv");
+        $("#saveSrv").on('click', function() {
+            var td = $("[data-id=0]").parent().parent().children("td");
+            var type = $(td[1]).html();
+            var coef = $(td[2]).html();
+            // Формируем запрос с данными новой услуги
+            var data = '{' +
+                '"type":"' + type + 
+                '","coef":"' + coef + 
+            '"}';
+            // Переходим по сформированной строке
+            location.href = "index.php?r=config/new&service=" + data;
+        });
     }
 });
 
@@ -33,7 +48,6 @@ $("#strRemove").on("click", function() {
     var dataTest = {};
     // Формируем json строку содержащий id строки в базе данных
     var i = 0;
-    
     var checkbox = $(".check-id:checked");
     var data = "{";
     if (checkbox.length > 0) {
@@ -44,7 +58,6 @@ $("#strRemove").on("click", function() {
         });
     }
     data += "}";
-
     location.href = "index.php?r=config/remove&id=" + data;    
 });
 
@@ -77,13 +90,16 @@ $(document).on("click", ".editable", function(e)	{
 		var type = $(service[1]).html();
 		var coef = $(service[2]).html();
         // Формируем json строку
-        var data = '{' +
-            '"id":"' + id + 
-            '","type":"' + type + 
-            '","coef":"' + coef + 
-        '"}';
-        // Переходим по сформированной строке
-        location.href = "index.php?r=config/edit&service=" + data;
+        if (id != 0) {        
+            var data = '{' +
+                '"id":"' + id + 
+                '","type":"' + type + 
+                '","coef":"' + coef + 
+            '"}';
+            // Переходим по сформированной строке
+            location.href = "index.php?r=config/edit&service=" + data;
+        }
+
     });
 });
 

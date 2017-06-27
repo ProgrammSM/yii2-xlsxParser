@@ -27,13 +27,12 @@ class GridFormTest extends \PHPUnit_Framework_TestCase
     /**
      * Проверяем на возможность занесения новой услуги в таблицу.
      */
-    public function testAddService()
+    public function testNewService()
     {
         $gridForm = new GridForm();
-        $this->assertTrue($gridForm->editService([
-            'id' => '0',
+        $this->assertTrue($gridForm->newService([
             'type' => '4',
-            'coef' => ''
+            'coef' => '3.0'
         ]));
     }
 
@@ -57,6 +56,48 @@ class GridFormTest extends \PHPUnit_Framework_TestCase
     {
         $gridForm = new GridForm();
         $this->assertTrue($gridForm->removeServices(['3', '4']));
+    }
+
+    /**
+     * Проверяем на возвращение false в случае ввода не верных данных при
+     * редактировании услуги
+     */
+    public function testInvalidEditService()
+    {
+        $gridForm = new GridForm();
+        $this->assertFalse($gridForm->editService([
+            'id' => 4,
+            'type' => '2',
+            'coef' => '5.0'
+        ]));
+    }
+
+    /**
+     * Проверяем на возвращение false в случае ввода не верных данных при
+     * удалении услуг
+     */
+    public function testInvalidRemoveServices()
+    {
+        $gridForm = new GridForm();
+        $this->assertFalse($gridForm->removeServices(['5', '6']));
+    }
+
+    /**
+     * Проверяем реакцию на пустой массив при редактировании услуги
+     */
+    public function testEmptyEditService()
+    {
+        $gridForm = new GridForm();
+        $this->assertTrue($gridForm->editService([]));
+    }
+
+    /**
+     * Проверяем реакцию на пустой массив при удалении услуг
+     */
+    public function testEmptyRemoveServices()
+    {
+        $gridForm = new GridForm();
+        $this->assertTrue($gridForm->removeServices([]));
     }
 
     /**

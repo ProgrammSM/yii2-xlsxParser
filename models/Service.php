@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
  */
 class Service extends ActiveRecord
 {
-    const SCENARIO_EDIT = 'edit';
+    const SCENARIO_EDIT = 'newOrEdit';
 
     public function scenarios()
     {

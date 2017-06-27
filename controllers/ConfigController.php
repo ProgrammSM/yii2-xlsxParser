@@ -35,16 +35,18 @@ class ConfigController extends Controller
     }
 
     /**
-     * Добавление строки с работой
+     * Добавление новой услуги
+     *
+     * @param string $service JSON-строка в данными новой услуги
      *
      * @return \yii\web\Response
      * @throws HttpException
      */
-    public function actionAdd()
+    public function actionNew($service)
     {
         $model = new GridForm();
-        if (!$model->addService()) {
-            throw new HttpException(422, 'Ошибка добавления');
+        if (!$model->newService(BaseJson::decode($service))) {
+            throw new HttpException(422, 'Ошибка добавления новой услуги');
         }
         return $this->redirect('index.php?r=config');
     }
@@ -67,7 +69,7 @@ class ConfigController extends Controller
     }
 
     /**
-     * Редактирование записей в услугах
+     * Редактирование записей в услуге
      *
      * @param null|string $service строка в формате JSON вида
      *                             {"id":"3","type":"3","coef":"5.0"}
@@ -91,7 +93,8 @@ class ConfigController extends Controller
      * @return \yii\web\Response
      * @throws HttpException
      */
-    public function actionRestore() {
+    public function actionRestore()
+    {
         $model = new GridForm();
         if (!$model->restoreConfig()) {
             throw new HttpException(422, 'Ошибка восстановления');

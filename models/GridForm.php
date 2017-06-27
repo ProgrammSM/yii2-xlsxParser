@@ -34,6 +34,20 @@ class GridForm extends Model
     }
 
     /**
+     * Добавление новой услуги
+     *
+     * @param string[] $data массив с данными новой услуги
+     *
+     * @return bool результат выполнения
+     */
+    public function newService($data) {
+        $service = new Service();
+        $service->scenario = 'newOrEdit';
+        $service->attributes = $data;
+        return $service->save();
+    }
+
+    /**
      * Удаление указанных услуг
      *
      * @param string[] $data идентификаторы удаляемых услуг
@@ -44,17 +58,20 @@ class GridForm extends Model
     {
         $result = true;
         foreach ($data as $id) {
-            $service = Service::findOne($id);
-            if ($service->delete() === false) {
+            if ($service = Service::findOne($id)) {
+                if ($service->delete() === false) {
+                    $result = false;
+                    break;
+                }
+            } else {
                 $result = false;
-                break;
             }
         }
         return $result;
     }
 
     /**
-     * Редактирование данных услуг
+     * Редактирование данных услуги
      *
      * @param string[] $data массив содержащий изменённые данные
      *
@@ -62,16 +79,17 @@ class GridForm extends Model
      */
     public function editService($data)
     {
-        $id = $data['id'];
-        $service = null;
-        if ($id != 0) {
-            $service = Service::findOne($id);
+        $result = false;
+        if (!empty($data)) {
+            if ($service = Service::findOne($data['id'])) {
+                $service->scenario = 'newOrEdit';
+                $service->attributes = $data;
+                $result = $service->save();
+            }
         } else {
-            $service = new Service();
+            $result = true;
         }
-        $service->scenario = 'edit';
-        $service->attributes = $data;
-        return $service->save();
+        return $result;
     }
 
     /**
