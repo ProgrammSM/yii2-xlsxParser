@@ -38,9 +38,7 @@ class CalcForm extends Model
     }
 
     /**
-     * Правила проверки указанного файла
-     *
-     * @return array
+     * @inheritdoc
      */
     public function rules()
     {

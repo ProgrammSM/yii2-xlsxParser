@@ -42,7 +42,7 @@ class GridForm extends Model
      */
     public function newService($data) {
         $service = new Service();
-        $service->scenario = 'newOrEdit';
+        $service->scenario = 'new';
         $service->attributes = $data;
         return $service->save();
     }
@@ -82,7 +82,7 @@ class GridForm extends Model
         $result = false;
         if (!empty($data)) {
             if ($service = Service::findOne($data['id'])) {
-                $service->scenario = 'newOrEdit';
+                $service->scenario = 'edit';
                 $service->attributes = $data;
                 $result = $service->save();
             }

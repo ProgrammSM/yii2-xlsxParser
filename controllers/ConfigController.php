@@ -15,7 +15,7 @@ use yii\web\HttpException;
 class ConfigController extends Controller
 {
     /**
-     * @var string действие по умолчанию
+     * @inheritdoc
      */
     public $defaultAction = 'grid';
 
